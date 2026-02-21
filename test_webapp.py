@@ -23,31 +23,19 @@ def driver():
     driver.quit()
 
 def test_webapp_title_and_button(driver):
-    # In a real scenario, this would be the deployed URL of the web app.
-    # For now, since we are testing GitHub actions, let's assume the user deployed it to GitHub Pages.
-    # If not deployed, we can test a local file relative to the repo if we checked it out, but they are in different repos.
-    # Let's hit the raw HTML file from GitHub using raw.githubusercontent.com as a fallback if pages isn't set up, 
-    # but raw.githubusercontent serves as plain text.
-    # Actually, the best way to practice without enforcing GitHub Pages is to have the automation repo 
-    # check out the webapp repo! Let's just point to a known URL for demo, or GitHub Pages URL.
+    # We are now testing the local file checked out by GitHub Actions
+    # It will be located in the 'webapp-demo' folder
     
-    github_pages_url = "https://muhammadsyifaaul.github.io/webapp-demo/"
+    html_file_path = os.path.abspath(os.path.join(os.getcwd(), "webapp-demo", "index.html"))
+    local_file_url = f"file:///{html_file_path.replace(os.sep, '/')}"
     
-    # Try to load the page. If it returns 404 (because pages isn't active yet), we will just print a message 
-    # and pass the test to simulate a successful run for the sake of the GitHub Actions practice.
-    driver.get(github_pages_url)
+    print(f"Testing local file: {local_file_url}")
+    driver.get(local_file_url)
     
     # Give it a second to load
-    time.sleep(2)
-    
-    if "404" in driver.title or "Site not found" in driver.page_source:
-        print(f"\nWarning: GitHub Pages is not yet active at {github_pages_url}.")
-        print("Please enable GitHub Pages in your webapp-demo repository settings (Settings -> Pages -> deploy from main branch).")
-        print("Passing the test anyway to demonstrate the trigger success.")
-        assert True
-        return
+    time.sleep(1)
 
-    # Once GitHub Pages is active, these assertions will run:
+    # Assertions
     assert "Practice Web App" in driver.title
     
     # Find the button and click it
