@@ -12,12 +12,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Checkout WebApp Code
-        uses: actions/checkout@v4
-        with:
-          repository: muhammadsyifaaul/webapp-demo
-          path: webapp-demo
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -34,5 +28,7 @@ jobs:
           echo "Commit SHA: ${{ github.event.client_payload.commit_sha }}"
 
       - name: Run Selenium Tests
+        env:
+          BASE_URL : https://muhammadsyifaaul.github.io/webapp-demo/
         run: |
           pytest test_webapp.py -v -s
