@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import time
 import os
+BASE_URL = os.getenv("BASE_URL")
+
 
 @pytest.fixture
 def driver():
@@ -21,11 +23,7 @@ def driver():
 
 def test_webapp_title_and_button(driver):
     
-    html_file_path = os.path.abspath(os.path.join(os.getcwd(), "webapp-demo", "index.html"))
-    local_file_url = f"file:///{html_file_path.replace(os.sep, '/')}"
-    
-    print(f"Testing local file: {local_file_url}")
-    driver.get(local_file_url)        
+    driver.get(BASE_URL)   
     
     time.sleep(1)
 
